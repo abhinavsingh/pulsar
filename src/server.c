@@ -49,25 +49,21 @@ server_setup_socket(const char *ip, short port) {
 	return fd;
 }
 
-conf *
-server_read_conf() {
-	conf *cfg;
-	cfg = calloc(1, sizeof(conf));
-
-	cfg->ip = strdup("0.0.0.0");
-	cfg->port = 9090;
-	cfg->workers = 4;
-
-	return cfg;
-}
-
 server *
-server_new() {
+server_new(conf *cfg) {
+	int i;
+
 	server *s;
 	s = calloc(1, sizeof(server));
 
 	/* read cfg file */
-	s->cfg = server_read_conf();
+	s->cfg = cfg;
+
+	/* setup workers */
+	s->w = calloc(s->cfg->workers, sizeof(worker *));
+	for(i=0; i<s->cfg->workers; i++) {
+		s->w[i] = worker_new(s);
+	}
 
 	return s;
 }
@@ -111,9 +107,7 @@ server_start(server *s) {
 	assert(s->fd != -1);
 
 	/* start workers */
-	s->w = calloc(s->cfg->workers, sizeof(worker *));
 	for(i=0; i<s->cfg->workers; i++) {
-		s->w[i] = worker_new(s);
 		worker_start(s->w[i]);
 	}
 

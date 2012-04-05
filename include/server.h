@@ -29,7 +29,7 @@ struct _server {
 };
 
 server *
-server_new();
+server_new(conf *cfg);
 
 void
 server_start(server *s);
