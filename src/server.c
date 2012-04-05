@@ -83,6 +83,7 @@ server_free(server *s) {
 
 	/* free */
 	event_del(s->signal);
+	event_free(s->signal);
 	event_base_free(s->base);
 	close(s->fd);
 	free(s->w);
