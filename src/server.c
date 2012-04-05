@@ -5,7 +5,6 @@
  *      Author: abhinavsingh
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
@@ -17,7 +16,6 @@
 #include <arpa/inet.h>
 
 #include <event2/event.h>
-#include <event2/http.h>
 
 #include "server.h"
 #include "worker.h"
