@@ -8,6 +8,9 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
+#define SERVER_NAME "pulsar"
+#define SERVER_VERSION "0.1"
+
 typedef struct _conf conf;
 typedef struct _worker worker;
 

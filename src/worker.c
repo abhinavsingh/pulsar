@@ -11,6 +11,7 @@
 #include <event2/event.h>
 #include <event2/http.h>
 #include <event2/buffer.h>
+#include <event2/keyvalq_struct.h>
 
 #include "server.h"
 #include "worker.h"
@@ -18,10 +19,11 @@
 void
 worker_handler(struct evhttp_request *req, void *arg) {
 	//worker *w = arg;
+	int ret;
 
 	struct evhttp_connection *conn;
 	enum evhttp_cmd_type method;
-	struct evhttp_uri *uri;
+	const struct evhttp_uri *uri;
 	struct evkeyvalq *headers;
 
 	const char *host, *uri_host, *uri_path, *uri_query, *uri_user_info, *uri_scheme;
@@ -29,6 +31,10 @@ worker_handler(struct evhttp_request *req, void *arg) {
 	char *addr;
 	int uri_port;
 
+	struct evkeyvalq *out_headers;
+	struct evbuffer *buffer;
+
+	/* fetch request data */
 	conn = evhttp_request_get_connection(req);
 	host = evhttp_request_get_host(req);
 	evhttp_connection_get_peer(conn, &addr, &port);
@@ -42,13 +48,27 @@ worker_handler(struct evhttp_request *req, void *arg) {
 	uri_scheme = evhttp_uri_get_scheme(uri);
 	uri_port = evhttp_uri_get_port(uri);
 
+	/* simple log */
+	struct evkeyval *header;
+	for(header=headers->tqh_first; header; header=header->next.tqe_next) {
+		printf("%s: %s\n", header->key, header->value);
+	}
 	printf("addr:%s, port:%d, host:%s, method:%d, host:%s, path:%s, query:%s, user info:%s, scheme:%s, port:%d\n",
 			addr, port, host, method, uri_host, uri_path, uri_query, uri_user_info, uri_scheme, uri_port);
 
-	struct evbuffer *buffer;
+	/* prepare out headers */
+	out_headers = evhttp_request_get_output_headers(req);
+	evhttp_add_header(out_headers, "Content-Type", "text/html; charset=UTF-8");
+	evhttp_add_header(out_headers, "Server", SERVER_NAME);
+
+	/* prepare out buffer */
 	buffer = evbuffer_new();
-	evbuffer_add_printf(buffer, "%s", "hello world!");
+	ret = evbuffer_add_printf(buffer, "%s", "hello world!");
+	assert(ret != -1);
+
+	/* reply */
 	evhttp_send_reply(req, HTTP_OK, "OK", buffer);
+
 	evbuffer_free(buffer);
 }
 
