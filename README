@@ -11,4 +11,9 @@ make
 
 Help:
 -----
-./pulsar -h
+Usage: ./pulsar [-p port] [-w workers] [-h]
+
+Options:
+  -p port        : tcp port number to listen on (default: 9090)
+  -w workers     : number of worker threads to start for accepting connections (default: 4)
+  -h             : display this help message
