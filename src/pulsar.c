@@ -45,6 +45,9 @@ main(int argc, char *argv[]) {
 		case 'h':
 			print_usage(argv[0]);
 			exit(EXIT_FAILURE);
+		case '?':
+			print_usage(argv[0]);
+			exit(EXIT_FAILURE);
 		}
 	}
 
