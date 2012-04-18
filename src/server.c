@@ -50,7 +50,7 @@ server_setup_socket(const char *ip, short port) {
 }
 
 server *
-server_new(conf *cfg) {
+server_new(conf *cfg, logger *log) {
 	int i;
 
 	server *s;
@@ -59,11 +59,15 @@ server_new(conf *cfg) {
 	/* read cfg file */
 	s->cfg = cfg;
 
+	/* log */
+	s->log = log;
+
 	/* setup workers */
 	s->w = calloc(s->cfg->workers, sizeof(worker *));
 	for(i=0; i<s->cfg->workers; i++) {
 		s->w[i] = worker_new(s);
 	}
+	log_it(s->log, PULSAR_DEBUG, "workers initialized ...");
 
 	return s;
 }
@@ -83,8 +87,8 @@ server_free(server *s) {
 	event_base_free(s->base);
 	close(s->fd);
 	free(s->w);
-	free(s->cfg->ip);
-	free(s->cfg);
+	conf_free(s->cfg);
+	log_free(s->log);
 	free(s);
 }
 

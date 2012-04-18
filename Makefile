@@ -8,8 +8,8 @@ CFLAGS = -Wall -Iinclude
 LDFLAGS = -levent -pthread
 SRCDIR = src
 OBJDIR = obj
-SRCS = $(addprefix $(SRCDIR)/, worker.c server.c pulsar.c)
-OBJS = $(addprefix $(OBJDIR)/, worker.o server.o pulsar.o)
+SRCS = $(addprefix $(SRCDIR)/, logger.c conf.c worker.c server.c pulsar.c)
+OBJS = $(addprefix $(OBJDIR)/, logger.o conf.o worker.o server.o pulsar.o)
 EXE = pulsar
 
 $(EXE): $(OBJS)

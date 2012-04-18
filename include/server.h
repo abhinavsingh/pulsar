@@ -13,6 +13,7 @@
 
 typedef struct _conf conf;
 typedef struct _worker worker;
+typedef struct _logger logger;
 
 typedef struct _server server;
 struct _server {
@@ -26,10 +27,13 @@ struct _server {
 
 	/* workers */
 	worker **w;
+
+	/* log */
+	logger *log;
 };
 
 server *
-server_new(conf *cfg);
+server_new(conf *cfg, logger *log);
 
 void
 server_start(server *s);
