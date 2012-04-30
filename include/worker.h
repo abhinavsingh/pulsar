@@ -9,10 +9,8 @@
 #define WORKER_H_
 
 #include <pthread.h>
+#include "common.h"
 
-typedef struct _server server;
-
-typedef struct _worker worker;
 struct _worker {
 	pthread_t t;
 

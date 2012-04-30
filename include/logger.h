@@ -8,7 +8,7 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-typedef struct _server server;
+#include "common.h"
 
 typedef enum {
 	PULSAR_ERROR = 0,
@@ -18,7 +18,6 @@ typedef enum {
 	PULSAR_DEBUG
 } log_level;
 
-typedef struct _logger logger;
 struct _logger {
 	pid_t self;
 	int fd;

@@ -11,11 +11,8 @@
 #define SERVER_NAME "pulsar"
 #define SERVER_VERSION "0.1"
 
-typedef struct _conf conf;
-typedef struct _worker worker;
-typedef struct _logger logger;
+#include "common.h"
 
-typedef struct _server server;
 struct _server {
 	/* config */
 	conf *cfg;

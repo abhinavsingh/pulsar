@@ -9,8 +9,8 @@
 #define CONF_H_
 
 #include "logger.h"
+#include "common.h"
 
-typedef struct _conf conf;
 struct _conf {
 	char *ip;
 	unsigned short port;
