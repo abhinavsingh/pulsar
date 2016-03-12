@@ -95,7 +95,7 @@ worker_free(worker *w) {
 static void *
 worker_main(void *arg) {
 	int ret;
-	worker *w = arg;
+	worker *w = (worker*) arg;
 
 	w->base = event_base_new();
 	assert(w->base != NULL);
@@ -120,7 +120,7 @@ worker_main(void *arg) {
 worker *
 worker_new(server *s) {
 	worker *w;
-	w = calloc(1, sizeof(worker));
+	w = (worker*) calloc(1, sizeof(worker));
 
 	w->s = s;
 

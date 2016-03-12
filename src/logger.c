@@ -25,7 +25,7 @@ log_free(logger *log) {
 }
 
 logger *
-log_new(char *logfile, log_level level) {
+log_new(const char *logfile, log_level level) {
 	logger *log;
 	log = (logger *)calloc(1, sizeof(logger));
 

@@ -54,7 +54,7 @@ server_new(conf *cfg, logger *log) {
 	int i;
 
 	server *s;
-	s = calloc(1, sizeof(server));
+	s = (server*) calloc(1, sizeof(server));
 
 	/* read cfg file */
 	s->cfg = cfg;
@@ -63,7 +63,7 @@ server_new(conf *cfg, logger *log) {
 	s->log = log;
 
 	/* setup workers */
-	s->w = calloc(s->cfg->workers, sizeof(worker *));
+	s->w = (worker**) calloc(s->cfg->workers, sizeof(worker *));
 	for(i=0; i<s->cfg->workers; i++) {
 		s->w[i] = worker_new(s);
 	}
@@ -94,7 +94,7 @@ server_free(server *s) {
 
 static void
 server_sig_handler(evutil_socket_t fd, short event, void *arg) {
-	server *s = arg;
+	server *s = (server*) arg;
 	event_base_loopbreak(s->base);
 }
 

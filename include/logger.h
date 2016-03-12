@@ -22,7 +22,7 @@ struct _logger {
 	pid_t self;
 	int fd;
 
-	char *logfile;
+	const char *logfile;
 	log_level verbosity;
 };
 
@@ -30,7 +30,7 @@ void
 log_free(logger *log);
 
 logger *
-log_new(char *logfile, log_level level);
+log_new(const char *logfile, log_level level);
 
 void
 log_it(logger *log, log_level level, const char *body);
