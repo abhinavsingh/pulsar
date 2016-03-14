@@ -95,7 +95,7 @@ server_free(server *s) {
 static void
 server_sig_handler(evutil_socket_t fd, short event, void *arg) {
 	server *s = (server*) arg;
-	event_base_loopbreak(s->base);
+	event_base_loopexit(s->base, NULL);
 }
 
 void
