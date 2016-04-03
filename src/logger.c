@@ -25,7 +25,7 @@ log_free(logger *log) {
 }
 
 logger *
-log_new(char *logfile, log_level level) {
+log_new(const char *logfile, log_level level) {
 	logger *log;
 	log = (logger *)calloc(1, sizeof(logger));
 
@@ -58,7 +58,7 @@ log_it(logger *log, log_level level, const char *body) {
 	int line_sz, ret;
 
 	if(level > log->verbosity) return;
-	if(!log->fd) return;
+	if(!log->fd || log->fd == -1) return;
 
 	/* limit max log size */
 	sz = strlen(body);

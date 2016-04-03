@@ -49,13 +49,15 @@ worker_handler(struct evhttp_request *req, void *arg) {
 	uri_scheme = evhttp_uri_get_scheme(uri);
 	uri_port = evhttp_uri_get_port(uri);
 
+#ifdef DEBUG
 	/* simple log */
-	/*for(header=headers->tqh_first; header; header=header->next.tqe_next) {
+	for(header=headers->tqh_first; header; header=header->next.tqe_next) {
 		printf("%s: %s\n", header->key, header->value);
-	}*/
+	}
 
-	/*printf("addr:%s, port:%d, host:%s, method:%d, host:%s, path:%s, query:%s, user info:%s, scheme:%s, port:%d\n",
-			addr, port, host, method, uri_host, uri_path, uri_query, uri_user_info, uri_scheme, uri_port);*/
+	printf("addr:%s, port:%d, host:%s, method:%d, host:%s, path:%s, query:%s, user info:%s, scheme:%s, port:%d\n",
+			addr, port, host, method, uri_host, uri_path, uri_query, uri_user_info, uri_scheme, uri_port);
+#endif
 
 	/* prepare out headers */
 	out_headers = evhttp_request_get_output_headers(req);
@@ -93,7 +95,7 @@ worker_free(worker *w) {
 static void *
 worker_main(void *arg) {
 	int ret;
-	worker *w = arg;
+	worker *w = (worker*) arg;
 
 	w->base = event_base_new();
 	assert(w->base != NULL);
@@ -118,7 +120,7 @@ worker_main(void *arg) {
 worker *
 worker_new(server *s) {
 	worker *w;
-	w = calloc(1, sizeof(worker));
+	w = (worker*) calloc(1, sizeof(worker));
 
 	w->s = s;
 

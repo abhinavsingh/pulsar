@@ -18,7 +18,7 @@ struct _conf {
 };
 
 void
-conf_free();
+conf_free(conf *cfg);
 
 conf *
 conf_new(char *ip, unsigned short port, int workers);

@@ -1,4 +1,3 @@
-.SUFFIXES:
 .SUFFIXES: .c .o
 
 .PHONY: clean
@@ -19,4 +18,4 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm $(OBJS) $(EXE)
+	rm -f $(OBJS) $(EXE) log/pulsar.log
