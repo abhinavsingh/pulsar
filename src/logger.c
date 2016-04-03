@@ -58,7 +58,7 @@ log_it(logger *log, log_level level, const char *body) {
 	int line_sz, ret;
 
 	if(level > log->verbosity) return;
-	if(!log->fd) return;
+	if(!log->fd || log->fd == -1) return;
 
 	/* limit max log size */
 	sz = strlen(body);
